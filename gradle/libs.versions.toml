@@ -15,6 +15,10 @@ lifecycleRuntimeKtxVersion = "2.8.2"
 espressoCoreVersion = "3.5.1"
 junit = "1.1.5"
 junitVersion = "4.13.2"
+uiGraphicsAndroidVersion = "1.7.8"
+appcompatVersion = "1.7.0"
+materialVersion = "1.12.0"
+jetbrainsKotlinJvmVersion = "2.0.0"
 
 [libraries]
 # Coil
@@ -45,6 +49,9 @@ compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
 ext-junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
 junit = { module = "junit:junit", version.ref = "junitVersion" }
+ui-graphics-android = { group = "androidx.compose.ui", name = "ui-graphics-android", version.ref = "uiGraphicsAndroidVersion" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
+material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 
 
 [plugins]
@@ -53,6 +60,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agpVersion" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvmVersion" }
 
 [bundles]
 compose = [
