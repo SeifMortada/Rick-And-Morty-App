@@ -1,4 +1,4 @@
-package com.seifmortada.applications.rickandmorty.components
+package com.seifmortada.applications.character.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -33,8 +34,13 @@ fun CharacterStatusComponent(characterStatus: CharacterStatus) {
             .border(width = 2.dp, color = colorMapper, shape = RoundedCornerShape(12.dp))
             .padding(top = 12.dp, bottom = 12.dp, start = 12.dp, end = 48.dp)
     ) {
-        Text(text = "Status", fontSize = 14.sp)
-        Text(text = characterStatus.displayName, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        Text(text = "Status", fontSize = 14.sp, color = MaterialTheme.colorScheme.onPrimary)
+        Text(
+            text = characterStatus.displayName,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
     }
 }
 
@@ -45,6 +51,7 @@ private fun PreviewCharacterStatusComponentAlive() {
     CharacterStatusComponent(status)
 
 }
+
 @Preview
 @Composable
 private fun PreviewCharacterStatusComponentDead() {
@@ -59,6 +66,7 @@ private fun PreviewCharacterStatusComponentUnknwon() {
     val status = CharacterStatus.Unknown
     CharacterStatusComponent(status)
 }
+
 @Preview(showBackground = false)
 @Composable
 private fun PreviewCharacterStatusComponentDark() {

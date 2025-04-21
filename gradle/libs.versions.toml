@@ -1,4 +1,6 @@
 [versions]
+hiltAndroidCompilerVersion = "2.40.5"
+hiltAndroidVersion = "2.40.5"
 minSdk = "26"
 compileSdk = "34"
 
@@ -7,7 +9,7 @@ ktorVersion = "2.3.6"
 agpVersion = "8.3.2"
 kotlin = "2.0.0"
 composeBomVersion = "2024.09.03"
-navVersion = "2.7.7"
+navVersion = "2.8.9"
 activityComposeVersion = "1.9.0"
 coreKtxVersion = "1.13.1"
 lifecycleRuntimeKtxVersion = "2.8.2"
@@ -20,14 +22,20 @@ appcompatVersion = "1.7.0"
 materialVersion = "1.12.0"
 jetbrainsKotlinJvmVersion = "2.0.0"
 
+serialization = "1.6.3"
+ksp = "2.0.21-1.0.25"
+
 [libraries]
 # Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilComposeVersion" }
 # Android
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityComposeVersion" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidVersion" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompilerVersion" }
 lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtxVersion" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navVersion" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 
 # Ktor
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion" }
@@ -61,6 +69,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 android-library = { id = "com.android.library", version.ref = "agpVersion" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvmVersion" }
+google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 compose = [

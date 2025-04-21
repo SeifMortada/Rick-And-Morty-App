@@ -1,24 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.google.devtools.ksp)
-    alias(libs.plugins.kotlin.serialization)
-
 }
 
 android {
-    namespace = "com.seifmortada.applications.rickandmorty"
+    namespace = "com.seifmortada.applications.character"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
+
     defaultConfig {
-        applicationId = "com.seifmortada.applications.rickandmorty"
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -52,28 +47,20 @@ android {
 
 dependencies {
 
-    implementation(project(":core:network"))
-    implementation(project(":feature:characters"))
-    implementation(project(":feature:character"))
     implementation(project(":domain"))
-
-/*    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)*/
-    // Core Compose Dependencies
-    implementation(platform(libs.compose.bom))
-    // Navigation for Compose
-    implementation(libs.navigation.compose)
-    implementation(libs.compose.material3)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(project(":core:network"))
     implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-
+    implementation(libs.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.compose.ui.test.junit)
-    debugImplementation(libs.compose.ui.tooling)
-    debugImplementation(libs.compose.ui.test.manifest)
+
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
+
+    implementation(libs.navigation.compose)
+
+    // Image loading
+    implementation(libs.coil.compose)
 }
