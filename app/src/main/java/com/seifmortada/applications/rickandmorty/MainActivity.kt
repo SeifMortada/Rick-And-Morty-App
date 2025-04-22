@@ -14,17 +14,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
-import com.seifmortada.applications.character.CharacterScreen
+import com.seifmortada.applications.character.navigation.characterDetailsScreen
+import com.seifmortada.applications.character.navigation.navigateToCharacterDetails
 import com.seifmortada.applications.domain.Character
 import com.seifmortada.applications.network.KtorClient
-import com.seifmortada.applications.characters.CharactersRoute
-import com.seifmortada.applications.navigation.Destinations
+import com.seifmortada.applications.characters.navigation.Characters
+import com.seifmortada.applications.characters.navigation.charactersScreen
 import com.seifmortada.applications.rickandmorty.ui.theme.RickAndMortyTheme
 
 class MainActivity : ComponentActivity() {
@@ -39,7 +37,7 @@ class MainActivity : ComponentActivity() {
             }
             RickAndMortyTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { contentPadding ->
-                    AppNavigation(
+                    RickAndMortyApp(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(contentPadding),
@@ -53,7 +51,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AppNavigation(
+fun RickAndMortyApp(
     characters: List<Character>,
     ktorClient: KtorClient,
     navController: NavHostController = rememberNavController(),
@@ -62,16 +60,14 @@ fun AppNavigation(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Destinations.Characters
+        startDestination = Characters
     ) {
-        composable<Destinations.Characters> {
-            CharactersRoute(characters = characters) {
-                navController.navigate(Destinations.CharacterDetails(it))
-            }
-        }
-        composable<Destinations.CharacterDetails> {
-            val args = it.toRoute<Destinations.CharacterDetails>()
-            CharacterScreen(ktorClient, args.characterId)
-        }
+        charactersScreen(
+            characters = characters,
+            onCharacterClicked = { navController.navigateToCharacterDetails(it) }
+        )
+        characterDetailsScreen(
+            ktorClient = ktorClient
+        )
     }
 }
