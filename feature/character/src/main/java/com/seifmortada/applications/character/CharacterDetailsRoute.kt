@@ -30,11 +30,13 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.seifmortada.applications.character.components.CharacterStatusComponent
 import com.seifmortada.applications.domain.Character
+import com.seifmortada.applications.domain.CharacterGender
+import com.seifmortada.applications.domain.CharacterStatus
 import com.seifmortada.applications.network.KtorClient
 import kotlinx.coroutines.delay
 
 @Composable
-fun CharacterDetailsScreen(
+fun CharacterDetailsRoute(
     ktorClient: KtorClient,
     characterId: Int
 ) {
@@ -59,12 +61,25 @@ fun CharacterDetailsScreen(
         character = ktorClient.getCharacter(characterId)
         delay(500)
     }
-    LazyColumn(modifier = Modifier.fillMaxSize().padding(12.dp)) {
-        character?.let {
-            item { CharacterStatusComponent(characterStatus = it.status) }
-        }
-        item { Text(text = character?.name ?: "", style = MaterialTheme.typography.headlineLarge) }
-        item { CharacterImage(character?.imageUrl ?: "") }
+    character?.let {
+        CharacterDetailsScreen(it, characterDataPoints)
+    }
+
+}
+
+@Composable
+fun CharacterDetailsScreen(
+    character: Character,
+    characterDataPoints: List<DataPoint> = emptyList()
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(12.dp)
+    ) {
+        item { CharacterStatusComponent(characterStatus = character.status) }
+        item { Text(text = character.name , style = MaterialTheme.typography.headlineLarge, color = MaterialTheme.colorScheme.onBackground) }
+        item { CharacterImage(character.imageUrl) }
         items(characterDataPoints) {
             SmallMagentaText(it.title)
             Spacer(Modifier.height(4.dp))
@@ -109,5 +124,31 @@ fun CharacterImage(imageUrl: String) {
 @Preview
 @Composable
 private fun CharacterScreenPreview() {
-
+    CharacterDetailsScreen(
+        character = Character(
+            id = 1,
+            name = "Rick Sanchez",
+            status = CharacterStatus.Alive,
+            created = "2017-11-04T18:48:46.250Z",
+            gender = CharacterGender.Male,
+            imageUrl = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+            location = Character.Location(name = "Citadel of Ricks", url = ""),
+            origin = Character.Origin(name = "Earth (C-137)", url = ""),
+            species = "Human",
+            episodesUrl = listOf(
+                "https://rickandmortyapi.com/api/episode/1",
+                "https://rickandmortyapi.com/api/episode/2",
+                "https://rickandmortyapi.com/api/episode/3"
+            ),
+            type = ""
+        ),
+        characterDataPoints = listOf(
+            DataPoint("Last Known Location", "Earth (C-137)"),
+            DataPoint("Species", "Human"),
+            DataPoint("Gender", "Male"),
+            DataPoint("Type", ""),
+            DataPoint("Origin", "Earth (C-137)"),
+            DataPoint("Episode count", "3")
+        )
+    )
 }

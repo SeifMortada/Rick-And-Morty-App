@@ -1,7 +1,9 @@
 package com.seifmortada.applications.characters
 
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -17,24 +19,66 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.seifmortada.applications.domain.Character
 
+
 @Composable
 fun CharactersRoute(
-    characters: List<Character>,
-    onCharacterCliecked: (Int) -> Unit
+    viewModel: CharactersViewModel = hiltViewModel(),
+    onCharacterClicked: (Int) -> Unit
 ) {
+    val uiState = viewModel.charactersUiState.collectAsStateWithLifecycle()
+    LaunchedEffect(true) {
+        viewModel.getCharacters()
+    }
+    CharactersScreen(uiState.value, onCharacterClicked)
+
+}
+
+@Composable
+fun CharactersScreen(uiState: CharactersResultUiState, onCharacterClicked: (Int) -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(6.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        when (uiState) {
+            is CharactersResultUiState.Error -> Toast.makeText(
+                LocalContext.current,
+                uiState.message,
+                Toast.LENGTH_SHORT
+            ).show()
+
+            CharactersResultUiState.Idle -> Unit
+            CharactersResultUiState.Loading -> CircularProgressIndicator()
+            is CharactersResultUiState.Success -> CharactersList(
+                uiState.characters,
+                onCharacterClicked
+            )
+        }
+    }
+}
+
+@Composable
+fun CharactersList(characters: List<Character>, onCharacterClicked: (Int) -> Unit) {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +87,7 @@ fun CharactersRoute(
         contentPadding = PaddingValues(12.dp)
     ) {
         items(characters) {
-            CharacterCard(it, onCharacterCliecked)
+            CharacterCard(it, onCharacterClicked)
         }
     }
 }

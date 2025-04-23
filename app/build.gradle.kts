@@ -58,7 +58,8 @@ dependencies {
     implementation(project(":domain"))
 
 /*    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)*/
+    ksp(libs.hilt.android.compiler)
+    */
     // Core Compose Dependencies
     implementation(platform(libs.compose.bom))
     // Navigation for Compose

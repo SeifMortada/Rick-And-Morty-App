@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.seifmortada.applications.character.CharacterDetailsScreen
+import com.seifmortada.applications.character.CharacterDetailsRoute
 import com.seifmortada.applications.network.KtorClient
 import kotlinx.serialization.Serializable
 
@@ -18,6 +18,6 @@ fun NavController.navigateToCharacterDetails(id: Int) =
 fun NavGraphBuilder.characterDetailsScreen(ktorClient: KtorClient) {
     composable<CharacterDetails> {
         val args = it.toRoute<CharacterDetails>()
-        CharacterDetailsScreen(ktorClient, args.characterId)
+        CharacterDetailsRoute(ktorClient, args.characterId)
     }
 }

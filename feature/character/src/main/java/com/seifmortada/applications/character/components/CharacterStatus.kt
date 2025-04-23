@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,12 +33,12 @@ fun CharacterStatusComponent(characterStatus: CharacterStatus) {
             .border(width = 2.dp, color = colorMapper, shape = RoundedCornerShape(12.dp))
             .padding(top = 12.dp, bottom = 12.dp, start = 12.dp, end = 48.dp)
     ) {
-        Text(text = "Status", fontSize = 14.sp, color = MaterialTheme.colorScheme.onPrimary)
+        Text(text = "Status", fontSize = 14.sp, color = MaterialTheme.colorScheme.onBackground)
         Text(
             text = characterStatus.displayName,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }

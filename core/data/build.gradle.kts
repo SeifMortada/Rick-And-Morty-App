@@ -1,13 +1,12 @@
+val jvmVersion = JavaVersion.toVersion(libs.versions.jvm.get())
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.google.devtools.ksp)
-
 }
 
 android {
-    namespace = "com.seifmortada.applications.network"
+    namespace = "com.seifmortada.applications.data"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
@@ -15,7 +14,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField("String", "BASE_URL", "\"https://rickandmortyapi.com/api/\"")
     }
 
     buildTypes {
@@ -28,14 +26,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = jvmVersion
+        targetCompatibility = jvmVersion
     }
     kotlinOptions {
-        jvmTarget = "11"
-    }
-    buildFeatures {
-        buildConfig = true
+        jvmTarget = libs.versions.jvm.get()
     }
     packaging {
         resources {
@@ -45,13 +40,13 @@ android {
 }
 
 dependencies {
+
     implementation(project(":domain"))
-
-    implementation(libs.bundles.ktor)
-    implementation(libs.ui.graphics.android)
-
+    implementation(project(":core:network"))
+    implementation(libs.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
 }

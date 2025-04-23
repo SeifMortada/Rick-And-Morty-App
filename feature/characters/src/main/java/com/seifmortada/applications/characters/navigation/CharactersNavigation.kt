@@ -4,7 +4,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.seifmortada.applications.characters.CharactersRoute
-import com.seifmortada.applications.domain.Character
 import kotlinx.serialization.Serializable
 
 
@@ -15,10 +14,9 @@ fun NavController.navigateToCharacters() =
     navigate(Characters)
 
 fun NavGraphBuilder.charactersScreen(
-    characters: List<Character>,
     onCharacterClicked: (Int) -> Unit
 ) {
     composable<Characters> {
-        CharactersRoute(characters,onCharacterClicked)
+        CharactersRoute(onCharacterClicked = onCharacterClicked)
     }
 }

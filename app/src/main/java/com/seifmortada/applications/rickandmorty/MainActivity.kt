@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,12 +37,11 @@ class MainActivity : ComponentActivity() {
                 characters = ktor.getAllCharacters()
             }
             RickAndMortyTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { contentPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize(), containerColor = MaterialTheme.colorScheme.background) { contentPadding ->
                     RickAndMortyApp(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(contentPadding),
-                        characters = characters ?: emptyList(),
                         ktorClient = ktor
                     )
                 }
@@ -52,7 +52,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun RickAndMortyApp(
-    characters: List<Character>,
     ktorClient: KtorClient,
     navController: NavHostController = rememberNavController(),
     modifier: Modifier
@@ -63,7 +62,6 @@ fun RickAndMortyApp(
         startDestination = Characters
     ) {
         charactersScreen(
-            characters = characters,
             onCharacterClicked = { navController.navigateToCharacterDetails(it) }
         )
         characterDetailsScreen(

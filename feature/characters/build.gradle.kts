@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.devtools.ksp)
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -60,9 +62,13 @@ dependencies {
 
     implementation(libs.navigation.compose)
 
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+
     // Image loading
     implementation(libs.coil.compose)
 
-    implementation(libs.kotlinx.serialization.json)
-
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
 }
