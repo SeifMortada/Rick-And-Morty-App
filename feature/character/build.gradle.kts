@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -49,23 +51,22 @@ android {
 
 dependencies {
 
-    implementation(project(":domain"))
-    implementation(project(":core:network"))
+
+    implementation(project(":core:domain"))
+
+    // Common
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.common)
+    implementation(libs.bundles.compose)
+    ksp(libs.hilt.android.compiler)
+
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-    implementation(platform(libs.compose.bom))
-    implementation(libs.bundles.compose)
-
-    implementation(libs.navigation.compose)
-
-    // Image loading
-    implementation(libs.coil.compose)
-
-    implementation(libs.kotlinx.serialization.json)
-
+    
+    debugImplementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.test.manifest)
 }

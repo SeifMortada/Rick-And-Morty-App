@@ -12,11 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,11 +29,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import com.seifmortada.applications.domain.Character
+import com.seifmortada.applications.domain.models.Character
+import com.seifmortada.applications.domain.models.CharacterGender
+import com.seifmortada.applications.domain.models.CharacterStatus
 
 
 @Composable
@@ -78,7 +77,10 @@ fun CharactersScreen(uiState: CharactersResultUiState, onCharacterClicked: (Int)
 }
 
 @Composable
-fun CharactersList(characters: List<Character>, onCharacterClicked: (Int) -> Unit) {
+fun CharactersList(
+    characters: List<Character>,
+    onCharacterClicked: (Int) -> Unit
+) {
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
@@ -93,7 +95,10 @@ fun CharactersList(characters: List<Character>, onCharacterClicked: (Int) -> Uni
 }
 
 @Composable
-fun CharacterCard(character: Character, onItemClicked: (Int) -> Unit) {
+fun CharacterCard(
+    character: Character,
+    onItemClicked: (Int) -> Unit
+) {
     Card(
         modifier = Modifier
             .width(100.dp)
@@ -128,6 +133,29 @@ fun CharacterCard(character: Character, onItemClicked: (Int) -> Unit) {
 @Preview
 @Composable
 private fun ScreenPreview() {
-    /*CharactersRoute(
-    )*/
+    CharactersScreen(
+        CharactersResultUiState.Success(
+            characters = listOf(
+               Character(
+                    id = 1,
+                    name = "Rick Sanchez",
+                    imageUrl = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+                    status = CharacterStatus.Alive,
+                    species = "Human",
+                    gender = CharacterGender.Male,
+                    origin = Character.Origin(
+                        name = "Earth",
+                        url = "https://rickandmortyapi.com/api/location/1"
+                    ),
+                    location = Character.Location(
+                        name = "Earth",
+                        url = "https://rickandmortyapi.com/api/location/20"
+                    ),
+                    created = "2017-11-04T18:48:46.250Z",
+                    episodesUrl = listOf(""),
+                    type = ""
+                )
+            )
+        )
+    ){}
 }

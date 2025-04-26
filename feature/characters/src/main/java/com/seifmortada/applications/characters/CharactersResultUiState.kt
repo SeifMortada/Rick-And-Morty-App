@@ -1,6 +1,7 @@
 package com.seifmortada.applications.characters
 
-import com.seifmortada.applications.domain.Character
+import com.seifmortada.applications.domain.models.Character
+
 
 sealed interface CharactersResultUiState {
     data object Loading : CharactersResultUiState

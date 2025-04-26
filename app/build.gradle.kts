@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.devtools.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt.android)
 
 }
 
@@ -46,20 +47,21 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/gradle/incremental.annotation.processors"
         }
     }
 }
 
 dependencies {
 
-    implementation(project(":core:network"))
     implementation(project(":feature:characters"))
     implementation(project(":feature:character"))
-    implementation(project(":domain"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
 
-/*    implementation(libs.hilt.android)
+    implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    */
+
     // Core Compose Dependencies
     implementation(platform(libs.compose.bom))
     // Navigation for Compose

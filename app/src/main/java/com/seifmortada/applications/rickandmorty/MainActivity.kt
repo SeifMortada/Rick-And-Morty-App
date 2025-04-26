@@ -20,29 +20,27 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.seifmortada.applications.character.navigation.characterDetailsScreen
 import com.seifmortada.applications.character.navigation.navigateToCharacterDetails
-import com.seifmortada.applications.domain.Character
-import com.seifmortada.applications.network.KtorClient
+import com.seifmortada.applications.domain.models.Character
 import com.seifmortada.applications.characters.navigation.Characters
 import com.seifmortada.applications.characters.navigation.charactersScreen
 import com.seifmortada.applications.rickandmorty.ui.theme.RickAndMortyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val ktor = KtorClient()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            var characters by remember { mutableStateOf<List<Character>?>(null) }
-            LaunchedEffect(true) {
-                characters = ktor.getAllCharacters()
-            }
             RickAndMortyTheme {
-                Scaffold(modifier = Modifier.fillMaxSize(), containerColor = MaterialTheme.colorScheme.background) { contentPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    containerColor = MaterialTheme.colorScheme.background
+                ) { contentPadding ->
                     RickAndMortyApp(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(contentPadding),
-                        ktorClient = ktor
+                            .padding(contentPadding)
                     )
                 }
             }
@@ -52,7 +50,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun RickAndMortyApp(
-    ktorClient: KtorClient,
     navController: NavHostController = rememberNavController(),
     modifier: Modifier
 ) {
@@ -64,8 +61,6 @@ fun RickAndMortyApp(
         charactersScreen(
             onCharacterClicked = { navController.navigateToCharacterDetails(it) }
         )
-        characterDetailsScreen(
-            ktorClient = ktorClient
-        )
+        characterDetailsScreen()
     }
 }
