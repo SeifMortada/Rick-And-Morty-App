@@ -29,11 +29,11 @@ fun CharacterStatusComponent(characterStatus: CharacterStatus) {
     Column(
         modifier = Modifier
             .width(IntrinsicSize.Min)
-            .background(color = Color.LightGray, shape = RoundedCornerShape(12.dp))
+            .background(color = MaterialTheme.colorScheme.background, shape = RoundedCornerShape(12.dp))
             .border(width = 2.dp, color = colorMapper, shape = RoundedCornerShape(12.dp))
             .padding(top = 12.dp, bottom = 12.dp, start = 12.dp, end = 48.dp)
     ) {
-        Text(text = "Status", fontSize = 14.sp, color = MaterialTheme.colorScheme.onBackground)
+        Text(text = "Status :", fontSize = 14.sp, color = MaterialTheme.colorScheme.onBackground)
         Text(
             text = characterStatus.displayName,
             fontSize = 24.sp,

@@ -23,6 +23,10 @@ class CharactersViewModel @Inject constructor(
         viewModelScope.launch {
             _charactersUiState.update { CharactersResultUiState.Loading }
             val characters = getAllCharactersUseCase()
+            if (characters.isEmpty()) {
+                _charactersUiState.update { CharactersResultUiState.Error("Error getting characters") }
+                return@launch
+            }
             _charactersUiState.update { CharactersResultUiState.Success(characters) }
         }
     }

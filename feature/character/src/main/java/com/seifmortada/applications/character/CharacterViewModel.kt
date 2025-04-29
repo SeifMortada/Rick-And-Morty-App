@@ -23,6 +23,10 @@ class CharacterViewModel @Inject constructor(
         viewModelScope.launch {
             _characterUiState.update { CharacterResultUiState.Loading }
             val character = getCharacterUseCase(id)
+            if (character == null) {
+                _characterUiState.update { CharacterResultUiState.Error("Error getting character") }
+                return@launch
+            }
             _characterUiState.update { CharacterResultUiState.Success(character) }
         }
     }
