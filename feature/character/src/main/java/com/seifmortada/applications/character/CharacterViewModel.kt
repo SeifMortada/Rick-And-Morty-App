@@ -2,6 +2,10 @@ package com.seifmortada.applications.character
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.seifmortada.applications.domain.models.Character
+import com.seifmortada.applications.domain.models.Episode
+import com.seifmortada.applications.domain.usecase.GetCharacterEpisodes
 import com.seifmortada.applications.domain.usecase.GetCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterViewModel @Inject constructor(
-    private val getCharacterUseCase: GetCharacterUseCase
+    private val getCharacterUseCase: GetCharacterUseCase,
+    private val getCharacterEpisodes: GetCharacterEpisodes
 ) : ViewModel() {
     private val _characterUiState: MutableStateFlow<CharacterResultUiState> =
         MutableStateFlow(CharacterResultUiState.Idle)
@@ -27,7 +32,19 @@ class CharacterViewModel @Inject constructor(
                 _characterUiState.update { CharacterResultUiState.Error("Error getting character") }
                 return@launch
             }
-            _characterUiState.update { CharacterResultUiState.Success(character) }
+            getCharacterEpisodes(character)
+        }
+    }
+
+    private fun getCharacterEpisodes(character: Character) {
+        viewModelScope.launch {
+            val episodes = getCharacterEpisodes(character.episodesUrl)
+            episodes.onSuccess { episodes ->
+                _characterUiState.update { CharacterResultUiState.Success(character, episodes) }
+            }
+                .onFailure { error ->
+                    _characterUiState.update { CharacterResultUiState.Error("Error getting episodes ${error.message}") }
+                }
         }
     }
 }
